@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
       minlength: [2, 'Le nom doit contenir au moins 2 caractères.'],
       maxlength: [50, 'Le nom ne peut pas dépasser 50 caractères.'],
     },
-    
+
     email: {
       type: String,
       required: [true, 'Veuillez renseigner votre adresse e-mail.'],
@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema(
       required: [true, 'Veuillez fournir un mot de passe.'],
       minlength: [6, 'Le mot de passe doit contenir au moins 6 caractères.'],
     },
+    profileImageUrl: { type: String, default: null },
     role: {
       type: String,
       enum: {

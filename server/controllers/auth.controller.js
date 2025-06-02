@@ -4,7 +4,9 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { JWT_EXPIRES_IN, JWT_SECRET } from "../config/env.js"
 
-// 🔐 Contrôleur pour l'inscription
+// @desc Enregistrer un nouvel utilisateur
+// @route POST /api/auth/signup
+// @acces Public
 export const signUp = async (req, res, next) => {
   const session = await mongoose.startSession()
   session.startTransaction()
@@ -61,7 +63,9 @@ export const signUp = async (req, res, next) => {
   }
 }
 
-// 🔓 Contrôleur pour la connexion
+// @desc Connexion d'un utilisateur
+// @route POST /api/auth/signin
+// @acces Public
 export const signIn = async (req, res, next) => {
   try {
     const { email, password } = req.body
@@ -107,7 +111,9 @@ export const signIn = async (req, res, next) => {
   }
 }
 
-// 🔒 Contrôleur pour la déconnexion
+// @desc Deconnexion d'un utilisateur
+// @route POST /api/auth/signout
+// @acces Prive
 export const signOut = async (req, res, next) => {
   try {
     // ⚠️ Si tu gères le token côté frontend (localStorage), la déconnexion est côté client.

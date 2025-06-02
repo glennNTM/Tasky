@@ -11,7 +11,10 @@ export const getUsers = async (req, res, next) => {
 }
 
 
-export const getUser = async (req, res, next) => {
+// @desc Deconnexion d'un utilisateur
+// @route POST /api/auth/signout
+// @acces Prive
+export const getUserProfile = async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id).select('-password')
         res.status(200).json({ success: true, data: user })
@@ -24,4 +27,18 @@ export const getUser = async (req, res, next) => {
     } catch (error) {
       next(error)
     }
+}
+
+// @desc Modifier un utilisateur
+// @route PUT /api/auth/signout
+// @acces Prive
+export const updateUserProfile = async (req, res, next) => {
+
+}
+
+// @desc Supprimer un utilisateur
+// @route DELETE /api/auth/signout
+// @acces Prive
+export const deleteUserProfile = async (req, res, next) => {
+
 }

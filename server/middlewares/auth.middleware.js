@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from "../config/env.js"
 
 // Middleware pour protéger les routes
-const authorize = async (req, res, next) => {
+export const authorize = async (req, res, next) => {
   try {
     let token
 
@@ -39,4 +39,13 @@ const authorize = async (req, res, next) => {
   }
 }
 
-export default authorize
+
+// Middleware pour les routes Admin-only
+export const adminOnly = async (req, res, next) =>{
+  if(req.user && req.user.role === "admin"){
+    next()
+}else{
+  res.status(403).json({ message: "Acces refuse, admin only"})
+}
+}
+
