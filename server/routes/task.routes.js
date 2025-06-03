@@ -1,18 +1,20 @@
 import { Router } from 'express'
+import { authorize, adminOnly } from '../middlewares/auth.middleware.js' // Décommenter et s'assurer que adminOnly est importé si besoin ailleurs
+import { createTask, getTaskById, getTasks, getUserTasks, updateTask, deleteTask } from '../controllers/task.controller.js'
 
 const taskRouter = Router()
 
-taskRouter.get('/', (req, res) => res.send( { titre: 'Recuperer tous les taches'}))
+taskRouter.get('/', authorize, adminOnly,getTasks) // Recuperer toutes les taches
 
-taskRouter.get('/:id', (req, res) => res.send( { titre: 'Recuperer un tache'}))
+taskRouter.get('/mytasks', authorize, getUserTasks) // Suggestion: route dédiée pour les tâches de l'utilisateur connecté
 
-taskRouter.get('/user/:id', (req, res) => res.send( { titre: "Recuperer toutes les taches d'utilisateur"}))
+taskRouter.get('/:id',  authorize, getTaskById) // Recuperer le details d'une tache d'un utilisateur
 
-taskRouter.post('/', (req, res) => res.send( { titre: 'Creer une tache'}))
+taskRouter.post('/', authorize, createTask) // Creer une tache - Ajout du middleware authorize
 
-taskRouter.put('/:id', (req, res) => res.send( { titre: 'Modifier une tache'}))
+taskRouter.put('/:id', authorize, updateTask) // Modifier une tache
 
-taskRouter.delete('/:id', (req, res) => res.send( { titre: 'Supprimer une tache'}))
+taskRouter.delete('/:id', authorize, deleteTask) // Supprimer une tache
 
 
 export default taskRouter

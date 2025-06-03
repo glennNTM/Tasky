@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from "../config/env.js"
 
 // Middleware pour protéger les routes
-export const authorize = async (req, res, next) => {
+const authorize = async (req, res, next) => {
   try {
     let token
 
@@ -35,17 +35,25 @@ export const authorize = async (req, res, next) => {
 
   } catch (error) {
     console.error('Erreur dans authorize:', error)
-    res.status(401).json({ message: 'Accès non autorisé.' })
+    // Gère les erreurs spécifiques de JWT pour un retour plus précis
+    if (error.name === 'JsonWebTokenError') {
+        return res.status(401).json({ message: 'Accès non autorisé : token invalide.' });
+    }
+    if (error.name === 'TokenExpiredError') {
+        return res.status(401).json({ message: 'Accès non autorisé : token expiré.' });
+    }
+    res.status(401).json({ message: 'Accès non autorisé.' }); // Message générique pour les autres cas
   }
 }
 
 
 // Middleware pour les routes Admin-only
-export const adminOnly = async (req, res, next) =>{
-  if(req.user && req.user.role === "admin"){
-    next()
-}else{
-  res.status(403).json({ message: "Acces refuse, admin only"})
-}
+ const adminOnly = async (req, res, next) => {
+  if (req.user && req.user.role === "admin") {
+      next()
+  } else {
+      res.status(403).json({ message: 'Accès refusé : cette ressource est réservée aux administrateurs.' });
+  }
 }
 
+export { authorize, adminOnly }

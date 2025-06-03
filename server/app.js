@@ -5,14 +5,19 @@ import authRouter from './routes/auth.routes.js'
 import taskRouter from './routes/task.routes.js'
 import connectToDatabase from './database/mongodb.js'
 import errorMiddleware from './middlewares/error.middleware.js'
-// import cookieParser from 'cookie-parser'
+import cors from 'cors'
+
 
 const app = express()
 
-app.use(express.json())
-//app.use(express.urlencoded({ extend: false }))
-//app.use(cookieParser)
+// Middleware pour gerer les CORS
+app.use(cors())
 
+// Middleware pour gerer le format des donnees
+app.use(express.json())
+
+
+// Routes
 app.use('/api/auth', authRouter)
 app.use('/api/users', userRouter)
 app.use('/api/tasks', taskRouter)

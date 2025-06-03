@@ -1,16 +1,21 @@
 import { Router } from 'express'
-import { getUserProfile, getUsers } from '../controllers/user.controller.js'
-import authorize from '../middlewares/auth.middleware.js'
+import { deleteUserProfile, getUserProfile, getUsers, updateUserProfile } from '../controllers/user.controller.js'
+import { authorize, adminOnly } from '../middlewares/auth.middleware.js'
 
 const userRouter = Router()
 
-userRouter.get('/', getUsers)
+// @acces Prive (admin-only)
+userRouter.get('/', authorize, adminOnly, getUsers)   // Recuperer tous les utilisateurs
 
-userRouter.get('/:id', authorize, getUserProfile)
+// @acces Prive (le propriétaire du profil ou un admin)
+userRouter.get('/:id', authorize, getUserProfile ) // Recuperer le profil d'un utilisateur
 
-userRouter.put('/:id', (req, res) => res.send( { titre: 'Modifier un utilisateur'}))
+// @acces Prive (le propriétaire du profil ou un admin)
+userRouter.put('/:id', authorize, updateUserProfile)   // Modifier le profil d'un utilisateur
 
-userRouter.delete('/:id', (req, res) => res.send( { titre: 'Supprimer un utilisateur'}))
+// @acces Prive (admin-only)
+userRouter.delete('/:id', authorize, adminOnly, deleteUserProfile) // Supprimer un utilisateur
+
 
 
 export default userRouter
