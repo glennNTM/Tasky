@@ -51,7 +51,7 @@ const getTaskById = async (req, res, next) => {
 // @acces Prive (user-only)
 const getUserTasks = async (req, res, next) => {
     try {
-        const { statut, priorité, dateEcheance, sortByPriorité } = req.query
+        const { statut, priorité, dateEcheance, sortByPriorité, sortByStatut } = req.query
         const query = { utilisateur: req.user._id }
 
         if (statut) {
@@ -61,18 +61,16 @@ const getUserTasks = async (req, res, next) => {
             query.priorité = priorité
         }
         if (dateEcheance) {
-            // Vous pouvez rendre cela plus flexible (ex: avant/après une date)
             query.dateEcheance = new Date(dateEcheance)
         }
 
         let sortOptions = {}
         if (sortByPriorité) {
-            // Pour trier par priorité de 'haute' à 'basse'
-            // On peut assigner des poids ou utiliser une logique plus complexe si nécessaire
-            // Pour une approche simple, on peut trier par ordre alphabétique inversé si les valeurs sont bien ordonnées
-            // ou créer un champ de poids numérique dans le modèle.
-            // Ici, un tri simple : 'haute' > 'moyenne' > 'basse' (ordre alphabétique inversé)
+
             sortOptions.priorité = sortByPriorité === 'desc' ? -1 : 1
+        }
+        if (sortByStatut) {
+            sortOptions.statut = sortByStatut === 'desc' ? -1 : 1;
         }
 
         const tasks = await Task.find(query).sort(sortOptions)
@@ -105,8 +103,8 @@ const createTask = async (req, res, next) => {
             titre,
             description,
             dateEcheance,
-            priorité, // Le modèle a une valeur par défaut si non fourni
-            statut,   // Le modèle a une valeur par défaut si non fourni
+            priorité,
+            statut,
             utilisateur: req.user._id, // ID de l'utilisateur connecté
         })
 

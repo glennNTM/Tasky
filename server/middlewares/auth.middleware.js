@@ -42,7 +42,7 @@ const authorize = async (req, res, next) => {
     if (error.name === 'TokenExpiredError') {
         return res.status(401).json({ message: 'Accès non autorisé : token expiré.' });
     }
-    res.status(401).json({ message: 'Accès non autorisé.' }); // Message générique pour les autres cas
+    res.status(401).json({ message: 'Accès non autorisé.' }) 
   }
 }
 
