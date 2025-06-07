@@ -2,7 +2,6 @@ import express from 'express';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import csrf from 'csurf';
 import { PORT, SESSION_SECRET } from './config/env.js';
 import userRouter from './routes/user.routes.js'
 import authRouter from './routes/auth.routes.js'
@@ -46,15 +45,9 @@ app.use(
 );
 
 // Middleware de protection CSRF
-// Doit être configuré APRÈS cookieParser et session.
-const csrfProtection = csrf({ cookie: true }); // Stocke le secret CSRF dans un cookie _csrf
-app.use(csrfProtection);
 
 // Middleware pour rendre le token CSRF disponible pour les templates ou les réponses API si nécessaire
-app.use((req, res, next) => {
-  res.locals.csrfToken = req.csrfToken();
-  next();
-});
+
 
 // Routes
 app.use('/api/auth', authRouter)

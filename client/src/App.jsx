@@ -1,50 +1,73 @@
 
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./pages/auth/Login"
-import Register from "./pages/auth/Register"
-import PrivateRoute from "./routes/PrivateRoute";
-import Dashboard from "./pages/admin/Dashboard";
-import ManageTasks from "./pages/admin/ManageTasks";
-import ManageUsers from "./pages/admin/ManageUsers";
-import UserDashboard from "./pages/tasks/UserDashboard";
-import MyTask from "./pages/tasks/MyTask";
-import TaskDetail from "./pages/tasks/TaskDetail";
+
+// Pages
+import Layout from "./pages/Layout";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import OAuthCallback from "./pages/auth/OAuthCallback";
+import Home from "./pages/Home";
+import MyTasks from "./pages/tasks/MyTasks";
 import CreateTask from "./pages/tasks/CreateTask";
 import EditTask from "./pages/tasks/EditTask";
+import TaskDetail from "./pages/tasks/TaskDetail";
+import Profile from "./pages/Profile";
+import Dashboard from "./pages/admin/Dashboard";
+import ManageUsers from "./pages/admin/ManageUsers";
+import ManageTasks from "./pages/admin/ManageTasks";
 
+// Components
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
+import NotFound from "./pages/NotFound";
 
-
+const queryClient = new QueryClient();
 
 const App = () => {
   return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            {/* Redirection de / vers /login */}
+            <Route path="/" element={<Navigate to="/login" replace />} />
+            
+            {/* Routes d'authentification */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/auth/callback/:provider" element={<OAuthCallback />} />
 
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+            {/* Routes protégées */}
+            <Route path="/app" element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }>
+              <Route index element={<Home />} />
+              <Route path="tasks" element={<MyTasks />} />
+              <Route path="tasks/create" element={<CreateTask />} />
+              <Route path="tasks/:id" element={<TaskDetail />} />
+              <Route path="tasks/:id/edit" element={<EditTask />} />
+              <Route path="profile" element={<Profile />} />
+              
+              {/* Routes admin */}
+              <Route path="admin" element={<AdminRoute><Dashboard /></AdminRoute>} />
+              <Route path="admin/users" element={<AdminRoute><ManageUsers /></AdminRoute>} />
+              <Route path="admin/tasks" element={<AdminRoute><ManageTasks /></AdminRoute>} />
+            </Route>
 
-          {/*Admin Routes*/}
-          <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
-            <Route path="/admin" element={<Dashboard />} />
-            <Route path="/admin/tasks" element={<ManageTasks />} />
-            <Route path="/admin/users" element={<ManageUsers />} />
-          </Route>
-
-          {/*User Routes*/}
-          <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
-            <Route path="/user/dashboard" element={<UserDashboard />} />
-            <Route path="/user/tasks" element={<MyTask />} />
-            <Route path="/user/task-details/:id" element={<TaskDetail />} />
-            <Route path="/user/create-task" element={<CreateTask />} />
-            <Route path="/user/edit-task/:id" element={<EditTask />} />
-          </Route>
-
-        </Routes>
-      </BrowserRouter>
-    </div>
-
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
   );
 };
 
-export default App
+export default App;
