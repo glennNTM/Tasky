@@ -17,7 +17,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
+    fullname: "",
     email: "",
     password: ""
   });
@@ -128,11 +128,11 @@ const Register = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="name" className="text-gray-700 dark:text-gray-300">Nom complet</Label>
-                  <Input
+                  <Input // L'id HTML peut rester "name" si vous le souhaitez, mais la valeur et le handleChange doivent utiliser "fullname"
                     id="name"
                     type="text"
-                    value={formData.name}
-                    onChange={(e) => handleChange("name", e.target.value)}
+                    value={formData.fullname}
+                    onChange={(e) => handleChange("fullname", e.target.value)}
                     placeholder="Votre nom complet"
                     required
                     disabled={isLoading}
