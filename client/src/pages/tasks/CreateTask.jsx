@@ -32,7 +32,7 @@ const CreateTask = () => {
       // Invalider la requête pour 'myTasks' pour forcer un rafraîchissement
       queryClient.invalidateQueries({ queryKey: ['myTasks'] });
       toast.success("Tâche créée avec succès !");
-      navigate("/app/tasks"); // Redirection vers la liste des tâches après création
+      navigate("/app")
     } catch (error) {
       console.error("Erreur lors de la création de la tâche:", error);
       toast.error(error.response?.data?.message || "Erreur lors de la création de la tâche");

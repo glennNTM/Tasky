@@ -57,4 +57,4 @@ export const taskService = {
   deleteTask: (id) => api.delete(`/api/tasks/${id}`),
 };
 
-export default api;
+export default api

@@ -10,7 +10,7 @@ import Layout from "./pages/Layout";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import OAuthCallback from "./pages/auth/OAuthCallback";
-import Home from "./pages/Home";
+// import Home from "./pages/Home"; // Home n'est plus utilisé pour /app index
 import MyTasks from "./pages/tasks/MyTasks";
 import CreateTask from "./pages/tasks/CreateTask";
 import EditTask from "./pages/tasks/EditTask";
@@ -49,9 +49,10 @@ const App = () => {
                 <Layout />
               </ProtectedRoute>
             }>
-              <Route index element={<Home />} />
-              <Route path="tasks" element={<MyTasks />} />
+              <Route index element={<MyTasks />} /> {/* MyTasks est maintenant la page d'accueil de /app */}
               <Route path="tasks/create" element={<CreateTask />} />
+              {/* L'ancienne route /app/tasks peut être supprimée ou redirigée si MyTasks est à l'index */}
+              {/* <Route path="tasks" element={<Navigate to="/app" replace />} /> */} 
               <Route path="tasks/:id" element={<TaskDetail />} />
               <Route path="tasks/:id/edit" element={<EditTask />} />
               <Route path="profile" element={<Profile />} />
