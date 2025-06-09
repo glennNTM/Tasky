@@ -59,23 +59,23 @@ const Navbar = () => {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                 <Avatar className="h-8 w-8">
-                  <AvatarFallback className="bg-green-600 text-white">
-                    {getInitials(user.name)}
-                  </AvatarFallback>
+                  {/* Utiliser user.profilePictureUrl si disponible, sinon initiales */}
+                  {/* <AvatarImage src={user.profilePictureUrl} alt={user.fullname} /> */}
+                  <AvatarFallback className="bg-green-600 text-white">{getInitials(user.fullname)}</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg" align="end" forceMount>
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none text-gray-900 dark:text-white">{user.name}</p>
+                  <p className="text-sm font-medium leading-none text-gray-900 dark:text-white">{user.fullname}</p>
                   <p className="text-xs leading-none text-gray-600 dark:text-gray-300">
                     {user.email}
                   </p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator className="bg-gray-200 dark:bg-gray-700" />
-              <DropdownMenuItem onClick={() => navigate("/app/profile")} className="hover:bg-green-50 dark:hover:bg-green-900/20">
+              <DropdownMenuItem onClick={() => navigate(`/app/profile/${user._id}`)} className="hover:bg-green-50 dark:hover:bg-green-900/20">
                 <User className="mr-2 h-4 w-4 text-green-600 dark:text-green-400" />
                 <span className="text-gray-900 dark:text-white">Profil</span>
               </DropdownMenuItem>

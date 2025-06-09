@@ -1,26 +1,26 @@
 
-// import { useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 const AdminRoute = ({ children }) => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // // Simulation de vérification du rôle admin
-  // const user = JSON.parse(localStorage.getItem('user') || '{}');
-  // const isAdmin = user.role === 'admin';
+  // Vérification du rôle admin
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const isAdmin = user && user.role === 'admin'; // Vérifier aussi si l'utilisateur existe
 
-  // useEffect(() => {
-  //   if (!isAdmin) {
-  //     navigate('/app');
-  //   }
-  // }, [isAdmin, navigate]);
+  useEffect(() => {
+    if (!isAdmin) {
+      navigate('/app'); // Rediriger vers /app si pas admin
+    }
+  }, [isAdmin, navigate]);
 
   // if (!isAdmin) {
   //   return null;
   // }
 
   // Pour les tests, on rend directement les enfants
-  return children;
-};
+  return children
+}
 
-export default AdminRoute;
+export default AdminRoute

@@ -1,4 +1,5 @@
 import User from "../models/user.model.js"
+import bcrypt from 'bcryptjs'
 
 // @desc Recuperer la liste de tous les utilisateurs
 // @route GET /api/users
@@ -111,6 +112,50 @@ export const deleteUserProfile = async (req, res, next) => {
             message: 'User deleted successfully'
         })
 
+    } catch (error) {
+        next(error)
+    }
+}
+
+// @desc Creer un nouvel utilisateur (par un admin par exemple)
+// @route POST /api/users
+// @acces Prive (potentiellement admin-only, à définir dans les routes)
+export const createUser = async (req, res, next) => {
+    try {
+        const { fullname, email, password, role } = req.body
+
+        // Vérifier si les champs requis sont bien présents
+        if (!fullname || !email || !password) {
+            const error = new Error('Le nom complet, l\'email et le mot de passe sont requis.')
+            error.statusCode = 400
+            return next(error)
+        }
+
+        // Vérifier si l'utilisateur existe déjà
+        const existingUser = await User.findOne({ email })
+        if (existingUser) {
+            const error = new Error('Un utilisateur avec cet email existe déjà.')
+            error.statusCode = 409
+            return next(error)
+        }
+
+        // Hasher le mot de passe
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(password, salt)
+
+        // Créer un nouvel utilisateur
+        const newUser = await User.create({
+            fullname,
+            email,
+            password: hashedPassword,
+            role: role || 'tasker', // 'tasker' par défaut si non fourni ou invalide (le modèle gère l'enum)
+        })
+
+        // Exclure le mot de passe de la réponse
+        const userResponse = newUser.toObject()
+        delete userResponse.password
+
+        res.status(201).json({ success: true, message: 'Utilisateur créé avec succès.', data: userResponse })
     } catch (error) {
         next(error)
     }

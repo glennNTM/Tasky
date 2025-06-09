@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { deleteUserProfile, getUserProfile, getUsers, updateUserProfile } from '../controllers/user.controller.js'
+import { deleteUserProfile, getUserProfile, getUsers, updateUserProfile, createUser } from '../controllers/user.controller.js'
 import { authorize, adminOnly } from '../middlewares/auth.middleware.js'
 
 const userRouter = Router()
@@ -16,6 +16,7 @@ userRouter.put('/:id', authorize, updateUserProfile)   // Modifier le profil d'u
 // @acces Prive (admin-only)
 userRouter.delete('/:id', authorize, adminOnly, deleteUserProfile) // Supprimer un utilisateur
 
+userRouter.post('/', createUser)
 
 
 export default userRouter

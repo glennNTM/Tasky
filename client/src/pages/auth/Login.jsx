@@ -29,14 +29,22 @@ const Login = () => {
       console.log("POST /api/auth/login", formData);
       const response = await authService.login(formData);
       
-      if (response.data.user && response.data.token) {
+      const user = response.data.user;
+      const token = response.data.token;
+
+      if (user && token) {
         localStorage.setItem('user', JSON.stringify({
-          ...response.data.user,
-          token: response.data.token
+          ...user,
+          token: token
         }));
         
         toast.success("Connexion réussie !");
-        navigate("/app");
+        // Redirection conditionnelle en fonction du rôle
+        if (user.role === 'admin') {
+          navigate("/app/admin");
+        } else {
+          navigate("/app");
+        }
       }
     } catch (error) {
       console.error("Erreur de connexion:", error);

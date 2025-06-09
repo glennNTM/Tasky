@@ -1,5 +1,6 @@
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,73 +18,53 @@ import {
   Search, 
   Users, 
   Edit, 
-  Trash2, 
-  Mail, 
+  Trash2,
   Calendar,
   Shield,
-  ShieldCheck
+  ShieldCheck,
+  Loader2,
+  Mail // Ajouté pour l'icône email
 } from "lucide-react";
 import { toast } from "sonner";
 import DeleteConfirmModal from "@/components/DeleteConfirmModal";
+import { userService } from "@/services/api";
 
 const ManageUsers = () => {
+  const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState("");
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
 
-  // Données de démonstration
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "Marie Dubois",
-      email: "marie.dubois@example.com",
-      role: "admin",
-      joinedDate: "2024-01-15",
-      tasksCount: 12,
-      lastActive: "2024-01-20"
+  const { data: usersData, isLoading: isLoadingUsers, isError: isUsersError, error: usersError } = useQuery({
+    queryKey: ['admin-users'],
+    queryFn: async () => {
+      const response = await userService.getAllUsers();
+      return response.data.data || []; // L'API renvoie les utilisateurs dans response.data.data
     },
-    {
-      id: 2,
-      name: "Pierre Martin",
-      email: "pierre.martin@example.com",
-      role: "user",
-      joinedDate: "2024-01-18",
-      tasksCount: 8,
-      lastActive: "2024-01-19"
-    },
-    {
-      id: 3,
-      name: "Julie Leroy",
-      email: "julie.leroy@example.com",
-      role: "user",
-      joinedDate: "2024-01-20",
-      tasksCount: 15,
-      lastActive: "2024-01-20"
-    },
-    {
-      id: 4,
-      name: "Thomas Roux",
-      email: "thomas.roux@example.com",
-      role: "user",
-      joinedDate: "2024-01-12",
-      tasksCount: 6,
-      lastActive: "2024-01-18"
-    },
-    {
-      id: 5,
-      name: "Sophie Chen",
-      email: "sophie.chen@example.com",
-      role: "admin",
-      joinedDate: "2024-01-10",
-      tasksCount: 23,
-      lastActive: "2024-01-20"
+    onError: (error) => {
+      toast.error(error.response?.data?.message || "Erreur lors de la récupération des utilisateurs.");
     }
-  ]);
+  });
 
-  const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  const users = usersData || [];
+
+  const deleteUserMutation = useMutation({
+    mutationFn: (userId) => userService.deleteUser(userId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-users'] });
+      toast.success("Utilisateur supprimé avec succès !");
+      setDeleteModalOpen(false);
+      setUserToDelete(null);
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || "Erreur lors de la suppression de l'utilisateur.");
+    }
+  });
+
+  const filteredUsers = useMemo(() => users.filter(user =>
+    user.fullname.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  ), [users, searchTerm]);
 
   const handleDeleteUser = (user) => {
     setUserToDelete(user);
@@ -91,25 +72,13 @@ const ManageUsers = () => {
   };
 
   const confirmDelete = async () => {
-    try {
-      // Simulation d'appel API
-      console.log(`DELETE /api/users/${userToDelete.id}`);
-      
-      // Simuler un délai de traitement
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mettre à jour la liste des utilisateurs
-      setUsers(users.filter(user => user.id !== userToDelete.id));
-      
-      toast.success(`Utilisateur ${userToDelete.name} supprimé avec succès !`);
-      setDeleteModalOpen(false);
-      setUserToDelete(null);
-    } catch (error) {
-      toast.error("Erreur lors de la suppression de l'utilisateur");
+    if (userToDelete?._id) {
+      deleteUserMutation.mutate(userToDelete._id);
     }
   };
 
   const getInitials = (name) => {
+    if (!name) return "U";
     return name
       .split(" ")
       .map((n) => n[0])
@@ -119,7 +88,8 @@ const ManageUsers = () => {
   };
 
   const getRoleColor = (role) => {
-    return role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800';
+    return role === 'admin' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/70 dark:text-purple-300' 
+                             : 'bg-blue-100 text-blue-800 dark:bg-blue-900/70 dark:text-blue-300';
   };
 
   const getRoleIcon = (role) => {
@@ -127,18 +97,36 @@ const ManageUsers = () => {
   };
 
   const getRoleText = (role) => {
-    return role === 'admin' ? 'Administrateur' : 'Utilisateur';
+    // Le rôle 'tasker' est l'équivalent de 'Utilisateur' dans l'affichage
+    return role === 'admin' ? 'Administrateur' : 'Utilisateur'; 
   };
 
+  if (isLoadingUsers) {
+    return (
+      <div className="p-6 space-y-6 flex flex-col items-center justify-center min-h-[calc(100vh-150px)]">
+        <Loader2 className="h-12 w-12 text-green-600 animate-spin" />
+        <p className="text-gray-600 dark:text-gray-300">Chargement des utilisateurs...</p>
+      </div>
+    );
+  }
+
+  if (isUsersError) {
+    return (
+      <div className="p-6 space-y-6 text-center">
+        <p className="text-red-500">{usersError?.response?.data?.message || "Une erreur est survenue."}</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-6">
+    <div className="p-4 md:p-6 lg:p-8 space-y-6">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Gestion des utilisateurs</h1>
-        <p className="text-gray-600 mt-2">Gérez les comptes utilisateurs et leurs permissions.</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Gestion des utilisateurs</h1>
+        <p className="text-gray-600 dark:text-gray-300 mt-2 text-sm md:text-base">Gérez les comptes utilisateurs et leurs permissions.</p>
       </div>
 
       {/* Statistiques */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total utilisateurs</CardTitle>
@@ -146,9 +134,9 @@ const ManageUsers = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{users.length}</div>
-            <p className="text-xs text-muted-foreground">
+            {/* <p className="text-xs text-muted-foreground">
               +2 cette semaine
-            </p>
+            </p> */}
           </CardContent>
         </Card>
 
@@ -161,24 +149,9 @@ const ManageUsers = () => {
             <div className="text-2xl font-bold">
               {users.filter(user => user.role === 'admin').length}
             </div>
-            <p className="text-xs text-muted-foreground">
+            {/* <p className="text-xs text-muted-foreground">
               Accès complet
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Utilisateurs actifs</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {users.filter(user => new Date(user.lastActive) >= new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).length}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Cette semaine
-            </p>
+            </p> */}
           </CardContent>
         </Card>
       </div>
@@ -188,13 +161,13 @@ const ManageUsers = () => {
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle>Liste des utilisateurs</CardTitle>
-            <div className="relative w-72">
+            <div className="relative w-full sm:w-72">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
                 placeholder="Rechercher un utilisateur..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600"
               />
             </div>
           </div>
@@ -205,27 +178,27 @@ const ManageUsers = () => {
               <TableRow>
                 <TableHead>Utilisateur</TableHead>
                 <TableHead>Rôle</TableHead>
-                <TableHead>Tâches</TableHead>
+                {/* <TableHead>Tâches</TableHead> */}
                 <TableHead>Inscription</TableHead>
-                <TableHead>Dernière activité</TableHead>
+                {/* <TableHead>Dernière activité</TableHead> */}
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredUsers.map((user) => (
-                <TableRow key={user.id}>
+                <TableRow key={user._id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Avatar className="h-8 w-8">
-                        <AvatarFallback className="bg-blue-600 text-white text-sm">
-                          {getInitials(user.name)}
+                        <AvatarFallback className={`${user.role === 'admin' ? 'bg-purple-600' : 'bg-blue-600'} text-white text-sm`}>
+                          {getInitials(user.fullname)}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <div className="font-medium">{user.name}</div>
+                        <div className="font-medium text-gray-900 dark:text-white">{user.fullname}</div>
                         <div className="text-sm text-gray-600 flex items-center gap-1">
                           <Mail className="h-3 w-3" />
-                          {user.email}
+                          <span className="dark:text-gray-400">{user.email}</span>
                         </div>
                       </div>
                     </div>
@@ -236,24 +209,25 @@ const ManageUsers = () => {
                       {getRoleText(user.role)}
                     </Badge>
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <span className="font-medium">{user.tasksCount}</span>
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
-                    <div className="text-sm">
-                      {new Date(user.joinedDate).toLocaleDateString('fr-FR')}
+                    <div className="text-sm text-gray-700 dark:text-gray-300">
+                      {new Date(user.createdAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
                     </div>
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <div className="text-sm">
                       {new Date(user.lastActive).toLocaleDateString('fr-FR')}
                     </div>
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
-                      <Button variant="ghost" size="sm">
+                      {/* Le bouton Edit nécessiterait un modal/page de formulaire pour la modification */}
+                      {/* <Button variant="ghost" size="sm" onClick={() => console.log("Edit user", user._id)}>
                         <Edit className="h-4 w-4" />
-                      </Button>
+                      </Button> */}
                       <Button 
                         variant="ghost" 
                         size="sm"
@@ -271,10 +245,10 @@ const ManageUsers = () => {
 
           {filteredUsers.length === 0 && (
             <div className="text-center py-8">
-              <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Aucun utilisateur trouvé</h3>
-              <p className="text-gray-600">
-                {searchTerm ? "Essayez de modifier votre recherche" : "Il n'y a aucun utilisateur pour le moment"}
+              <Users className="h-12 w-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Aucun utilisateur trouvé</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                {searchTerm ? "Essayez de modifier votre recherche." : "Il n'y a aucun utilisateur pour le moment."}
               </p>
             </div>
           )}
@@ -282,15 +256,16 @@ const ManageUsers = () => {
       </Card>
 
       <DeleteConfirmModal
-        open={deleteModalOpen}
-        onOpenChange={setDeleteModalOpen}
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
         onConfirm={confirmDelete}
         title="Supprimer l'utilisateur"
         description={
           userToDelete 
-            ? `Êtes-vous sûr de vouloir supprimer l'utilisateur "${userToDelete.name}" ? Cette action supprimera également toutes ses tâches et est irréversible.`
+            ? `Êtes-vous sûr de vouloir supprimer l'utilisateur "${userToDelete.fullname}" ? Cette action est irréversible.`
             : ""
         }
+        isDeleting={deleteUserMutation.isPending}
       />
     </div>
   );

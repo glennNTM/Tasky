@@ -55,7 +55,7 @@ const App = () => {
               {/* <Route path="tasks" element={<Navigate to="/app" replace />} /> */} 
               <Route path="tasks/:id" element={<TaskDetail />} />
               <Route path="tasks/:id/edit" element={<EditTask />} />
-              <Route path="profile" element={<Profile />} />
+              <Route path="profile/:id" element={<Profile />} />
               
               {/* Routes admin */}
               <Route path="admin" element={<AdminRoute><Dashboard /></AdminRoute>} />
