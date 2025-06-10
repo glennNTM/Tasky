@@ -6,5 +6,7 @@ const authRouter = Router()
 authRouter.post('/register', register)  // Enregistrer un Utilisateur
 authRouter.post('/login', login)        // Se connecter
 authRouter.post('/logout', logout)      // Se deconnecter
+// authRouter.post('/oauth/:provider', oauthCallback) // Routes pour Oauth Google & Github
+
 
 export default authRouter

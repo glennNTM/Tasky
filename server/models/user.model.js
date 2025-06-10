@@ -26,6 +26,9 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, 'Veuillez fournir un mot de passe.'],
+      // Pour les utilisateurs OAuth, le mot de passe n'est pas défini par eux-mêmes.
+      // Vous pouvez le rendre non requis globalement ou gérer cela dans la logique de création.
+      // required: function() { return !this.googleId && !this.githubId; },
       minlength: [6, 'Le mot de passe doit contenir au moins 6 caractères.'],
     },
     profileImageUrl: { type: String, default: null },

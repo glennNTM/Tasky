@@ -1,8 +1,8 @@
 
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from 'sonner';
-import { authService } from '@/services/api';
+import { useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'sonner'
+import { authService } from '@/services/api'
 
 const OAuthCallback = () => {
   const navigate = useNavigate();
@@ -62,4 +62,4 @@ const OAuthCallback = () => {
   );
 };
 
-export default OAuthCallback;
+export default OAuthCallback

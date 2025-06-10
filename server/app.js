@@ -46,9 +46,6 @@ app.use(
 
 // Middleware de protection CSRF
 
-// Middleware pour rendre le token CSRF disponible pour les templates ou les réponses API si nécessaire
-
-
 // Routes
 app.use('/api/auth', authRouter)
 app.use('/api/users', userRouter)
@@ -58,10 +55,6 @@ app.get('/', (req, res) => {
   res.send("Bienvenue sur l'API de Tasky")
 })
 
-// Route pour que les clients obtiennent le token CSRF
-app.get('/api/csrf-token', (req, res) => {
-  res.json({ csrfToken: req.csrfToken() });
-});
 
 // Le middleware de gestion des erreurs doit être le dernier middleware
 app.use(errorMiddleware);
