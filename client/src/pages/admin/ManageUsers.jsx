@@ -21,7 +21,7 @@ import {
   Trash2,
   Calendar,
   Shield,
-  ShieldCheck,
+  Brain,
   Loader2,
   Mail // Ajouté pour l'icône email
 } from "lucide-react";
@@ -93,7 +93,7 @@ const ManageUsers = () => {
   };
 
   const getRoleIcon = (role) => {
-    return role === 'admin' ? <ShieldCheck className="h-3 w-3" /> : <Shield className="h-3 w-3" />;
+    return role === 'admin' ? <Brain className="h-3 w-3" /> : <Shield className="h-3 w-3" />;
   };
 
   const getRoleText = (role) => {
@@ -104,7 +104,7 @@ const ManageUsers = () => {
   if (isLoadingUsers) {
     return (
       <div className="p-6 space-y-6 flex flex-col items-center justify-center min-h-[calc(100vh-150px)]">
-        <Loader2 className="h-12 w-12 text-green-600 animate-spin" />
+        <Loader2 className="h-12 w-12 text-purple-600 animate-spin" />
         <p className="text-gray-600 dark:text-gray-300">Chargement des utilisateurs...</p>
       </div>
     );
@@ -143,7 +143,7 @@ const ManageUsers = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Administrateurs</CardTitle>
-            <ShieldCheck className="h-4 w-4 text-muted-foreground" />
+            <Brain className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">

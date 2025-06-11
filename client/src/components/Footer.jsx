@@ -1,5 +1,5 @@
 
-import { ShieldCheck } from "lucide-react";
+import { Brain } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -7,8 +7,8 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="flex items-center">
-            <div className="bg-green-600 p-2 rounded-lg mr-3">
-              <ShieldCheck className="h-5 w-5 text-white" />
+            <div className="bg-purple-600 p-2 rounded-lg mr-3">
+              <Brain className="h-5 w-5 text-white" />
             </div>
             <span className="text-lg font-bold text-gray-900 dark:text-white">Tasky</span>
           </div>
@@ -27,4 +27,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default Footer

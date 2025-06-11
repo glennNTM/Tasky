@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { ShieldCheck, Github, Eye, EyeOff } from "lucide-react";
+import { Brain, Github, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { authService } from "@/services/api";
 import { oauthService } from "@/services/oauth";
@@ -85,8 +85,8 @@ const Login = () => {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="bg-green-600 p-2 rounded-lg">
-                <ShieldCheck className="h-6 w-6 text-white" />
+              <div className="bg-purple-600 p-2 rounded-lg">
+                <Brain className="h-6 w-6 text-white" />
               </div>
               <span className="text-2xl font-bold text-gray-900 dark:text-white">Tasky</span>
             </div>
@@ -187,7 +187,7 @@ const Login = () => {
                 <Button 
                   type="submit" 
                   disabled={isLoading}
-                  className="w-full bg-green-600 hover:bg-green-700"
+                  className="w-full bg-purple-600 hover:bg-purple-700"
                 >
                   {isLoading ? "Connexion..." : "Se connecter"}
                 </Button>
@@ -195,7 +195,7 @@ const Login = () => {
 
               <div className="text-center text-sm">
                 <span className="text-gray-600 dark:text-gray-400">Pas encore de compte ? </span>
-                <Link to="/register" className="text-green-600 hover:underline font-medium">
+                <Link to="/register" className="text-purple-600 hover:underline font-medium">
                   S'inscrire
                 </Link>
               </div>

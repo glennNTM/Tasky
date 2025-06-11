@@ -11,12 +11,12 @@ const ThemeToggle = ({ className = "" }) => {
       variant="ghost"
       size="sm"
       onClick={toggleTheme}
-      className={`h-9 w-9 p-0 hover:bg-green-100 dark:hover:bg-green-900 ${className}`}
+      className={`h-9 w-9 p-0 hover:bg-purple-100 dark:hover:bg-purple-900 ${className}`}
     >
       {theme === 'light' ? (
-        <Moon className="h-4 w-4 text-green-600" />
+        <Moon className="h-4 w-4 text-purple-600" />
       ) : (
-        <Sun className="h-4 w-4 text-green-400" />
+        <Sun className="h-4 w-4 text-purple-400" />
       )}
     </Button>
   );

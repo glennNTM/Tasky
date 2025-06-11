@@ -66,7 +66,7 @@ const MyTasks = () => {
     const statusConfig = {
       'en attente': { label: 'À faire', icon: Clock, className: 'bg-amber-100 text-amber-800 dark:bg-amber-900/70 dark:text-amber-300' },
       'en cours': { label: 'En cours', icon: AlertCircle, className: 'bg-blue-100 text-blue-800 dark:bg-blue-900/70 dark:text-blue-300' },
-      'terminée': { label: 'Terminée', icon: CheckCircle, className: 'bg-green-100 text-green-800 dark:bg-green-900/70 dark:text-green-300' }
+      'terminée': { label: 'Terminée', icon: CheckCircle, className: 'bg-purple-100 text-purple-800 dark:bg-purple-900/70 dark:text-purple-300' }
     };
     const config = statusConfig[statut] || statusConfig['en attente'];
     const IconComponent = config.icon;
@@ -103,7 +103,7 @@ const MyTasks = () => {
               Gérez et organisez toutes vos tâches
             </p>
           </div>
-          <Button asChild className="w-full sm:w-auto bg-green-600 hover:bg-green-700">
+          <Button asChild className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700">
             <Link to="/app/tasks/create">
               <Plus className="h-4 w-4 mr-2" />
               Nouvelle tâche
@@ -168,7 +168,7 @@ const MyTasks = () => {
                 <p className="text-gray-600 dark:text-gray-300 max-w-md">
                   Vous n'avez pas encore de tâches. Créez votre première tâche pour commencer à organiser votre travail.
                 </p>
-                <Button asChild className="bg-green-600 hover:bg-green-700">
+                <Button asChild className="bg-purple-600 hover:bg-purple-700">
                   <Link to="/app/tasks/create">
                     <Plus className="h-4 w-4 mr-2" />
                     Créer ma première tâche
@@ -194,7 +194,7 @@ const MyTasks = () => {
               >
                 <CardHeader className="pb-3 relative">
                   <div className="flex items-start justify-between gap-2">
-                    <CardTitle className="text-lg line-clamp-2 text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                    <CardTitle className="text-lg line-clamp-2 text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                       {task.titre}
                     </CardTitle>
                     <div className="flex gap-1 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -202,10 +202,10 @@ const MyTasks = () => {
                         size="sm"
                         variant="ghost"
                         asChild
-                        className="h-8 w-8 p-0 hover:bg-green-100 dark:hover:bg-green-900"
+                        className="h-8 w-8 p-0 hover:bg-purple-100 dark:hover:bg-purple-900"
                       >
                         <Link to={`/app/tasks/${task._id}/edit`}>
-                          <Edit className="h-4 w-4 text-green-600 dark:text-green-400" />
+                          <Edit className="h-4 w-4 text-purple-600 dark:text-purple-400" />
                         </Link>
                       </Button>
                       <Button
@@ -218,7 +218,7 @@ const MyTasks = () => {
                       </Button>
                     </div>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 to-emerald-500/5 opacity-0 group-hover:opacity-30 transition-opacity duration-300 rounded-lg pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-emerald-500/5 opacity-0 group-hover:opacity-30 transition-opacity duration-300 rounded-lg pointer-events-none"></div>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {task.description && (
@@ -234,7 +234,7 @@ const MyTasks = () => {
 
                   {task.dateEcheance && (
                     <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                      <Calendar className="h-4 w-4 text-green-500" />
+                      <Calendar className="h-4 w-4 text-purple-500" />
                       <span>
                         Échéance: {new Date(task.dateEcheance).toLocaleDateString('fr-FR')}
                       </span>
@@ -242,7 +242,7 @@ const MyTasks = () => {
                   )}
 
                   <div className="pt-2">
-                    <Button asChild variant="outline" className="w-full border-green-200 text-green-600 hover:bg-green-50 dark:border-green-700 dark:text-green-400 dark:hover:bg-green-900/20 transition-all duration-200">
+                    <Button asChild variant="outline" className="w-full border-purple-200 text-purple-600 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-400 dark:hover:bg-purple-900/20 transition-all duration-200">
                       <Link to={`/app/tasks/${task._id}`}>
                         Voir les détails
                       </Link>

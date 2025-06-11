@@ -31,6 +31,16 @@ const userSchema = new mongoose.Schema(
       // required: function() { return !this.googleId && !this.githubId; },
       minlength: [6, 'Le mot de passe doit contenir au moins 6 caractères.'],
     },
+    googleId: { // Champ pour l'ID Google OAuth
+      type: String,
+      unique: true,
+      sparse: true // Permet les valeurs nulles tout en garantissant l'unicité des non-nulles
+    },
+    githubId: { // Champ pour l'ID GitHub OAuth
+      type: String,
+      unique: true,
+      sparse: true
+    },
     profileImageUrl: { type: String, default: null },
 
     role: {

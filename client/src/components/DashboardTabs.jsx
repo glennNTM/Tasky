@@ -30,8 +30,8 @@ const DashboardTabs = () => {
         label: 'Terminée', 
         variant: 'secondary', 
         icon: CheckCircle, 
-        color: 'text-green-600',
-        bgColor: 'bg-green-100 dark:bg-green-900'
+        color: 'text-purple-600',
+        bgColor: 'bg-purple-100 dark:bg-purple-900'
       }
     };
     
@@ -48,7 +48,7 @@ const DashboardTabs = () => {
 
   const getPriorityBadge = (priority) => {
     const priorityConfig = {
-      'low': { label: 'Faible', className: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' },
+      'low': { label: 'Faible', className: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' },
       'medium': { label: 'Moyenne', className: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200' },
       'high': { label: 'Élevée', className: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }
     };
@@ -68,7 +68,7 @@ const DashboardTabs = () => {
               Organisez et gérez vos tâches efficacement
             </p>
           </div>
-          <Button asChild className="w-full sm:w-auto bg-green-600 hover:bg-green-700 transition-all duration-200 transform hover:scale-105">
+          <Button asChild className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 transition-all duration-200 transform hover:scale-105">
             <Link to="/app/tasks/create">
               <Plus className="h-4 w-4 mr-2" />
               Nouvelle tâche
@@ -79,10 +79,10 @@ const DashboardTabs = () => {
         {/* Navigation par onglets */}
         <Tabs defaultValue="all" className="w-full">
           <TabsList className="grid w-full grid-cols-4 bg-white dark:bg-gray-800 shadow-sm">
-            <TabsTrigger value="all" className="data-[state=active]:bg-green-100 data-[state=active]:text-green-700 dark:data-[state=active]:bg-green-900 dark:data-[state=active]:text-green-300">Toutes</TabsTrigger>
-            <TabsTrigger value="todo" className="data-[state=active]:bg-green-100 data-[state=active]:text-green-700 dark:data-[state=active]:bg-green-900 dark:data-[state=active]:text-green-300">À faire</TabsTrigger>
-            <TabsTrigger value="in-progress" className="data-[state=active]:bg-green-100 data-[state=active]:text-green-700 dark:data-[state=active]:bg-green-900 dark:data-[state=active]:text-green-300">En cours</TabsTrigger>
-            <TabsTrigger value="completed" className="data-[state=active]:bg-green-100 data-[state=active]:text-green-700 dark:data-[state=active]:bg-green-900 dark:data-[state=active]:text-green-300">Terminées</TabsTrigger>
+            <TabsTrigger value="all" className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 dark:data-[state=active]:bg-purple-900 dark:data-[state=active]:text-purple-300">Toutes</TabsTrigger>
+            <TabsTrigger value="todo" className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 dark:data-[state=active]:bg-purple-900 dark:data-[state=active]:text-purple-300">À faire</TabsTrigger>
+            <TabsTrigger value="in-progress" className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 dark:data-[state=active]:bg-purple-900 dark:data-[state=active]:text-purple-300">En cours</TabsTrigger>
+            <TabsTrigger value="completed" className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 dark:data-[state=active]:bg-purple-900 dark:data-[state=active]:text-purple-300">Terminées</TabsTrigger>
           </TabsList>
 
           {/* Contenu des onglets */}
@@ -97,7 +97,7 @@ const DashboardTabs = () => {
                       <p className="text-gray-600 dark:text-gray-300 max-w-md">
                         Vous n'avez pas encore de tâches. Créez votre première tâche pour commencer à organiser votre travail.
                       </p>
-                      <Button asChild className="bg-green-600 hover:bg-green-700 transition-all duration-200 transform hover:scale-105">
+                      <Button asChild className="bg-purple-600 hover:bg-purple-700 transition-all duration-200 transform hover:scale-105">
                         <Link to="/app/tasks/create">
                           <Plus className="h-4 w-4 mr-2" />
                           Créer ma première tâche
@@ -115,7 +115,7 @@ const DashboardTabs = () => {
                     >
                       <CardHeader className="pb-3 relative">
                         <div className="flex items-start justify-between gap-2">
-                          <CardTitle className="text-lg line-clamp-2 text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                          <CardTitle className="text-lg line-clamp-2 text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                             {task.title}
                           </CardTitle>
                           <div className="flex gap-1 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -123,10 +123,10 @@ const DashboardTabs = () => {
                               size="sm"
                               variant="ghost"
                               asChild
-                              className="h-8 w-8 p-0 hover:bg-green-100 dark:hover:bg-green-900"
+                              className="h-8 w-8 p-0 hover:bg-purple-100 dark:hover:bg-purple-900"
                             >
                               <Link to={`/app/tasks/${task.id}/edit`}>
-                                <Edit className="h-4 w-4 text-green-600 dark:text-green-400" />
+                                <Edit className="h-4 w-4 text-purple-600 dark:text-purple-400" />
                               </Link>
                             </Button>
                             <Button
@@ -138,7 +138,7 @@ const DashboardTabs = () => {
                             </Button>
                           </div>
                         </div>
-                        <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
                       </CardHeader>
                       <CardContent className="space-y-4">
                         {task.description && (
@@ -154,7 +154,7 @@ const DashboardTabs = () => {
 
                         {task.dueDate && (
                           <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-                            <Calendar className="h-4 w-4 text-green-500" />
+                            <Calendar className="h-4 w-4 text-purple-500" />
                             <span>
                               Échéance: {new Date(task.dueDate).toLocaleDateString('fr-FR')}
                             </span>
@@ -162,7 +162,7 @@ const DashboardTabs = () => {
                         )}
 
                         <div className="pt-2">
-                          <Button asChild variant="outline" className="w-full border-green-200 text-green-600 hover:bg-green-50 dark:border-green-700 dark:text-green-400 dark:hover:bg-green-900/20 transition-all duration-200">
+                          <Button asChild variant="outline" className="w-full border-purple-200 text-purple-600 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-400 dark:hover:bg-purple-900/20 transition-all duration-200">
                             <Link to={`/app/tasks/${task.id}`}>
                               Voir les détails
                             </Link>

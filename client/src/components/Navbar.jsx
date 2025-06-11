@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { LogOut, User, ShieldCheck } from "lucide-react";
+import { LogOut, User, Brain } from "lucide-react";
 import { toast } from "sonner";
 import ThemeToggle from "@/components/ThemeToggle";
 
@@ -44,8 +44,8 @@ const Navbar = () => {
     <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 transition-colors">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <div className="bg-green-600 p-2 rounded-lg mr-3">
-            <ShieldCheck className="h-6 w-6 text-white" />
+          <div className="bg-purple-600 p-2 rounded-lg mr-3">
+            <Brain className="h-6 w-6 text-white" />
           </div>
           <span className="text-xl font-bold text-gray-900 dark:text-white">Tasky</span>
         </div>
@@ -61,7 +61,7 @@ const Navbar = () => {
                 <Avatar className="h-8 w-8">
                   {/* Utiliser user.profilePictureUrl si disponible, sinon initiales */}
                   {/* <AvatarImage src={user.profilePictureUrl} alt={user.fullname} /> */}
-                  <AvatarFallback className="bg-green-600 text-white">{getInitials(user.fullname)}</AvatarFallback>
+                  <AvatarFallback className="bg-purple-600 text-white">{getInitials(user.fullname)}</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
@@ -75,8 +75,8 @@ const Navbar = () => {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator className="bg-gray-200 dark:bg-gray-700" />
-              <DropdownMenuItem onClick={() => navigate(`/app/profile/${user._id}`)} className="hover:bg-green-50 dark:hover:bg-green-900/20">
-                <User className="mr-2 h-4 w-4 text-green-600 dark:text-green-400" />
+              <DropdownMenuItem onClick={() => navigate(`/app/profile/${user._id}`)} className="hover:bg-purple-50 dark:hover:bg-purple-900/20">
+                <User className="mr-2 h-4 w-4 text-purple-600 dark:text-purple-400" />
                 <span className="text-gray-900 dark:text-white">Profil</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator className="bg-gray-200 dark:bg-gray-700" />

@@ -9,12 +9,15 @@ import taskRouter from './routes/task.routes.js'
 import connectToDatabase from './database/mongodb.js'
 import errorMiddleware from './middlewares/error.middleware.js'
 import cors from 'cors'
+import { configurePassport } from './config/passport.config.js'
+import passport from 'passport'
 
 
 const app = express()
 
+
+
 // Middleware pour gérer les CORS
-// Le port par défaut de Vite est 5173, mais utilisez celui de votre configuration.
 app.use(cors({
   origin: 'http://localhost:8080', // Port de votre serveur de développement Vite
   credentials: true // Autorise l'envoi des cookies et des en-têtes d'autorisation
@@ -26,10 +29,8 @@ app.use(helmet())
 // Middleware pour gerer le format des donnees
 app.use(express.json())
 
-// Middleware pour parser les cookies (requis pour csurf si option cookie: true)
+// Middleware pour parser les cookies (requis pour express-session)
 app.use(cookieParser())
-
-// Middleware de session (requis pour csurf)
 app.use(
   session({
     secret: SESSION_SECRET,
@@ -43,6 +44,13 @@ app.use(
     },
   })
 );
+
+// --- Configuration de Passport ---
+configurePassport()
+
+// --- Initialiser Passport et sa session ---
+app.use(passport.initialize());
+app.use(passport.session()); // Doit être après express-session
 
 // Middleware de protection CSRF
 

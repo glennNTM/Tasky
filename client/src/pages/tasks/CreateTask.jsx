@@ -50,7 +50,7 @@ const CreateTask = () => {
     const icons = {
       'en attente': <Clock className="h-4 w-4 text-amber-600" />,
       'en cours': <AlertCircle className="h-4 w-4 text-blue-600" />,
-      'terminée': <CheckCircle className="h-4 w-4 text-green-600" />
+      'terminée': <CheckCircle className="h-4 w-4 text-purple-600" />
     };
     return icons[status] || <Clock className="h-4 w-4 text-gray-500" />; // Fallback icon
   };
@@ -119,7 +119,7 @@ const CreateTask = () => {
                       </SelectItem>
                       <SelectItem value="terminée">
                         <div className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-600" />
+                          <CheckCircle className="h-4 w-4 text-purple-600" />
                           Terminée
                         </div>
                       </SelectItem>
@@ -143,7 +143,7 @@ const CreateTask = () => {
 
               <div>
                 <Label htmlFor="dateEcheance" className="text-gray-900 dark:text-white flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-green-600" />
+                  <Calendar className="h-4 w-4 text-purple-600" />
                   Date d'échéance
                 </Label>
                 <Input
@@ -157,7 +157,7 @@ const CreateTask = () => {
               </div>
 
               <div className="flex gap-4 pt-4">
-                <Button type="submit" className="flex-1 bg-green-600 hover:bg-green-700">
+                <Button type="submit" className="flex-1 bg-purple-600 hover:bg-purple-700">
                   Créer la tâche
                 </Button>
                 <Button 

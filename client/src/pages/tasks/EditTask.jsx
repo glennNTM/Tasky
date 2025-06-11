@@ -97,7 +97,7 @@ const EditTask = () => {
     const icons = {
       'en attente': <Clock className="h-4 w-4 text-amber-600" />,
       'en cours': <AlertCircle className="h-4 w-4 text-blue-600" />,
-      'terminée': <CheckCircle className="h-4 w-4 text-green-600" />
+      'terminée': <CheckCircle className="h-4 w-4 text-purple-600" />
     };
     return icons[statut];
   };
@@ -105,7 +105,7 @@ const EditTask = () => {
   if (isLoadingTask) {
     return (
       <div className="min-h-screen w-full p-4 md:p-6 lg:p-8 bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <Loader2 className="h-12 w-12 animate-spin text-green-600" />
+        <Loader2 className="h-12 w-12 animate-spin text-purple-600" />
       </div>
     );
   }
@@ -183,7 +183,7 @@ const EditTask = () => {
                       </SelectItem>
                       <SelectItem value="terminée">
                         <div className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-600" />
+                          <CheckCircle className="h-4 w-4 text-purple-600" />
                           Terminée
                         </div>
                       </SelectItem>
@@ -208,7 +208,7 @@ const EditTask = () => {
 
               <div>
                 <Label htmlFor="dateEcheance" className="text-gray-900 dark:text-white flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-green-600" />
+                  <Calendar className="h-4 w-4 text-purple-600" />
                   Date d'échéance
                 </Label>
                 <Input
@@ -221,7 +221,7 @@ const EditTask = () => {
               </div>
 
               <div className="flex gap-4 pt-4">
-                <Button type="submit" className="flex-1 bg-green-600 hover:bg-green-700" disabled={updateMutation.isPending}>
+                <Button type="submit" className="flex-1 bg-purple-600 hover:bg-purple-700" disabled={updateMutation.isPending}>
                   {updateMutation.isPending ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   ) : null}

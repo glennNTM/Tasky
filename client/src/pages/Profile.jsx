@@ -124,7 +124,7 @@ const Profile = () => {
   if (isLoadingProfile) {
     return (
       <div className="min-h-screen w-full p-4 md:p-6 lg:p-8 bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <Loader2 className="h-12 w-12 animate-spin text-green-600" />
+        <Loader2 className="h-12 w-12 animate-spin text-purple-600" />
       </div>
     );
   }
@@ -153,8 +153,8 @@ const Profile = () => {
             <CardHeader className="pb-4">
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-3 text-xl">
-                  <div className="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
-                    <User className="h-5 w-5 text-green-600 dark:text-green-400" />
+                  <div className="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
+                    <User className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                   </div>
                   Informations personnelles
                 </CardTitle>
@@ -162,7 +162,7 @@ const Profile = () => {
                   variant="outline"
                   size="sm"
                   onClick={() => setIsEditing(!isEditing)}
-                  className="border-green-200 text-green-600 hover:bg-green-50 dark:border-green-700 dark:text-green-400"
+                  className="border-purple-200 text-purple-600 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-400"
                 >
                   <Edit className="h-4 w-4 mr-2" />
                   {isEditing ? "Annuler" : "Modifier"}
@@ -181,7 +181,7 @@ const Profile = () => {
                       type="text"
                       value={formData.fullname}
                       onChange={(e) => handleChange("fullname", e.target.value)}
-                      className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:border-green-500 focus:ring-green-500 text-gray-900 dark:text-white"
+                      className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500 text-gray-900 dark:text-white"
                     />
                   </div>
 
@@ -194,11 +194,11 @@ const Profile = () => {
                       type="email"
                       value={formData.email}
                       onChange={(e) => handleChange("email", e.target.value)}
-                      className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:border-green-500 focus:ring-green-500 text-gray-900 dark:text-white"
+                      className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500 text-gray-900 dark:text-white"
                     />
                   </div>
 
-                  <Button type="submit" className="w-full bg-green-600 hover:bg-green-700" disabled={updateUserMutation.isPending}>
+                  <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700" disabled={updateUserMutation.isPending}>
                     {updateUserMutation.isPending ? (
                       <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                     ) : (
@@ -245,7 +245,7 @@ const Profile = () => {
                       type={showCurrentPassword ? "text" : "password"}
                       value={formData.currentPassword}
                       onChange={(e) => handleChange("currentPassword", e.target.value)}
-                      className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:border-green-500 focus:ring-green-500 text-gray-900 dark:text-white pr-10"
+                      className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500 text-gray-900 dark:text-white pr-10"
                       placeholder="Entrez votre mot de passe actuel"
                     />
                     <Button
@@ -274,7 +274,7 @@ const Profile = () => {
                       type={showNewPassword ? "text" : "password"}
                       value={formData.newPassword}
                       onChange={(e) => handleChange("newPassword", e.target.value)}
-                      className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:border-green-500 focus:ring-green-500 text-gray-900 dark:text-white pr-10"
+                      className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500 text-gray-900 dark:text-white pr-10"
                       placeholder="Choisissez un nouveau mot de passe"
                     />
                     <Button
@@ -303,7 +303,7 @@ const Profile = () => {
                       type={showConfirmPassword ? "text" : "password"}
                       value={formData.confirmPassword}
                       onChange={(e) => handleChange("confirmPassword", e.target.value)}
-                      className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:border-green-500 focus:ring-green-500 text-gray-900 dark:text-white pr-10"
+                      className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500 text-gray-900 dark:text-white pr-10"
                       placeholder="Confirmez votre nouveau mot de passe"
                     />
                     <Button

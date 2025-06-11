@@ -71,7 +71,7 @@ const Register = () => {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="bg-green-600 p-2 rounded-lg">
+              <div className="bg-purple-600 p-2 rounded-lg">
                 <ShieldCheck className="h-6 w-6 text-white" />
               </div>
               <span className="text-2xl font-bold text-gray-900 dark:text-white">Tasky</span>
@@ -187,7 +187,7 @@ const Register = () => {
                 <Button 
                   type="submit" 
                   disabled={isLoading}
-                  className="w-full bg-green-600 hover:bg-green-700"
+                  className="w-full bg-purple-600 hover:bg-purple-700"
                 >
                   {isLoading ? "Inscription..." : "S'inscrire"}
                 </Button>
@@ -195,7 +195,7 @@ const Register = () => {
 
               <div className="text-center text-sm">
                 <span className="text-gray-600 dark:text-gray-400">Déjà un compte ? </span>
-                <Link to="/login" className="text-green-600 hover:underline font-medium">
+                <Link to="/login" className="text-purple-600 hover:underline font-medium">
                   Se connecter
                 </Link>
               </div>

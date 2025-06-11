@@ -35,7 +35,7 @@ export const register = async (req, res, next) => {
     const newUser = await User.create([{
       fullname,
       email,
-      
+
       password: hashedPassword
     }], { session })
 
@@ -134,5 +134,41 @@ export const logout = async (req, res, next) => {
       success: false,
       message: "Une erreur est survenue lors de la déconnexion."
     })
+  }
+}
+
+// @desc Gère le callback OAuth pour Google et GitHub
+// @route GET /api/auth/:provider/callback
+// @acces Public
+export const oauthCallback = async (req, res, next) => {
+  try {
+    // Passport.js a déjà authentifié l'utilisateur et l'a attaché à req.user
+    const user = req.user
+
+    if (!user) {
+      const error = new Error('Authentification OAuth échouée.')
+      error.statusCode = 401
+      throw error
+    }
+
+    // Génère un token JWT pour l'utilisateur authentifié via OAuth
+    const token = jwt.sign(
+      { userId: user._id },
+      JWT_SECRET,
+      { expiresIn: JWT_EXPIRES_IN }
+    )
+
+    // Redirige l'utilisateur vers une page de succès sur le frontend avec le token et les infos utilisateur
+    // ou renvoie une réponse JSON si le frontend gère la redirection et le stockage du token.
+    // Dans notre cas, le frontend OAuthCallback.jsx attend une réponse JSON.
+    res.status(200).json({
+      success: true,
+      message: 'Connexion OAuth réussie.',
+      token,
+      user
+    })
+
+  } catch (error) {
+    next(error)
   }
 }
