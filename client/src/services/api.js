@@ -44,7 +44,8 @@ export const userService = {
   getUserProfile: (id) => api.get(`/api/users/${id}`),
   updateUserProfile: (id, userData) => api.put(`/api/users/${id}`, userData),
   deleteUser: (id) => api.delete(`/api/users/${id}`),
-  updatePassword: (passwordData) => api.put('/api/users/password', passwordData), // Pour changer le mot de passe de l'utilisateur connecté
+  // L'ID n'est pas nécessaire dans l'URL car le backend utilisera req.user._id
+  updatePassword: (passwordData) => api.put('/api/users/password/update', passwordData), 
 }
 
 // Services tâches

@@ -160,3 +160,47 @@ export const createUser = async (req, res, next) => {
         next(error)
     }
 }
+
+
+// @desc Modifier le mot de passe de  l'utilisateur
+// @route PUT /api/users/password/:id
+// @acces Prive (l'utilisateur connecté modifie son propre mot de passe)
+export const updateUserPassword = async (req, res, next) => {
+    try {
+        const { currentPassword, newPassword } = req.body;
+        const userId = req.user._id; // ID de l'utilisateur connecté via le token JWT
+
+        // Vérifier si les mots de passe sont fournis
+        if (!currentPassword || !newPassword) {
+            const error = new Error('Le mot de passe actuel et le nouveau mot de passe sont requis.');
+            error.statusCode = 400;
+            return next(error);
+        }
+
+        // Récupérer l'utilisateur avec son mot de passe actuel
+        const user = await User.findById(userId).select('+password');
+        if (!user) {
+            const error = new Error('Utilisateur non trouvé.');
+            error.statusCode = 404;
+            return next(error);
+        }
+
+        // Vérifier si le mot de passe actuel est correct
+        const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+        if (!isPasswordValid) {
+            const error = new Error('Le mot de passe actuel est incorrect.');
+            error.statusCode = 401;
+            return next(error);
+        }
+
+        // Hasher et mettre à jour le nouveau mot de passe
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(newPassword, salt);
+        await user.save();
+
+        res.status(200).json({ success: true, message: 'Mot de passe mis à jour avec succès.' });
+
+    } catch (error) {
+        next(error);
+    }
+}
