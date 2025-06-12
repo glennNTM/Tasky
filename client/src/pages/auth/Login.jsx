@@ -41,7 +41,7 @@ const Login = () => {
         toast.success("Connexion réussie !");
         // Redirection conditionnelle en fonction du rôle
         if (user.role === 'admin') {
-          navigate("/app/admin");
+          navigate("/app/admin/users");
         } else {
           navigate("/app");
         }
@@ -101,7 +101,7 @@ const Login = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Boutons OAuth */}
-              <div className="grid grid-cols-1 gap-3">
+              {/* <div className="grid grid-cols-1 gap-3">
                 <Button 
                   variant="outline" 
                   onClick={handleGoogleLogin}
@@ -125,16 +125,16 @@ const Login = () => {
                   <Github className="h-4 w-4 mr-2" />
                   Continuer avec GitHub
                 </Button>
-              </div>
+              </div> */}
 
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <Separator className="w-full bg-gray-200 dark:bg-gray-600" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-white dark:bg-gray-800 px-2 text-gray-500 dark:text-gray-400">
+                  {/*<span className="bg-white dark:bg-gray-800 px-2 text-gray-500 dark:text-gray-400">
                     Ou continuer avec
-                  </span>
+                  </span>*/}
                 </div>
               </div>
 

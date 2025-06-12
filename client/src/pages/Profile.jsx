@@ -20,23 +20,25 @@ const Profile = () => {
   const [profileImage, setProfileImage] = useState(null);
   
   // Récupérer l'ID de l'utilisateur depuis le localStorage
-  const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
-  const userId = storedUser?._id;
+  const storedUser = JSON.parse(localStorage.getItem('user') || '{}')
+  const userId = storedUser?._id
+  console.log(userId)
+
 
   const [formData, setFormData] = useState({
-    fullname: "", // Changé de name à fullname pour correspondre potentiellement au backend
+    fullname: "", 
     email: "",
     currentPassword: "",
     newPassword: "",
     confirmPassword: ""
-  });
+  })
 
   const { data: userProfile, isLoading: isLoadingProfile, isError: isProfileError, error: profileError } = useQuery({
     queryKey: ['userProfile', userId],
     queryFn: () => userService.getUserProfile(userId),
     enabled: !!userId, // Ne lance la requête que si userId est disponible
     onSuccess: (response) => {
-      const data = response.data.data; // Supposant que l'API renvoie { success: true, data: userObject }
+      const data = response.data.data
       setFormData(prev => ({
         ...prev,
         fullname: data.fullname || "",
@@ -49,7 +51,9 @@ const Profile = () => {
     onError: (error) => {
       toast.error(error.response?.data?.message || "Erreur lors du chargement du profil.");
     }
-  });
+  })
+
+  const actualUserData = userProfile?.data?.data;
 
   const updateUserMutation = useMutation({
     mutationFn: (profileData) => userService.updateUserProfile(userId, profileData),
@@ -93,7 +97,7 @@ const Profile = () => {
       profilePictureUrl: profileImage?.url 
     };
     updateUserMutation.mutate(dataToUpdate);
-  };
+  }
 
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
@@ -142,8 +146,8 @@ const Profile = () => {
             onImageChange={handleImageChange}
           />
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{formData.fullname}</h1>
-            <p className="text-gray-600 dark:text-gray-300">{formData.email}</p>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{actualUserData?.fullname || (isLoadingProfile ? 'Chargement...' : '')}</h1>
+            <p className="text-gray-600 dark:text-gray-300">{actualUserData?.email || (isLoadingProfile ? 'Chargement...' : '')}</p>
           </div>
         </div>
 
@@ -211,12 +215,12 @@ const Profile = () => {
                 <div className="space-y-6">
                   <div>
                     <Label className="text-sm font-medium text-gray-600 dark:text-gray-400">Nom complet</Label>
-                    <p className="text-lg font-medium text-gray-900 dark:text-white mt-1">{formData.fullname || 'Non défini'}</p>
+                    <p className="text-lg font-medium text-gray-900 dark:text-white mt-1">{actualUserData?.fullname || 'Non défini'}</p>
                   </div>
                   <Separator className="bg-gray-200 dark:bg-gray-700" />
                   <div>
                     <Label className="text-sm font-medium text-gray-600 dark:text-gray-400">Email</Label>
-                    <p className="text-lg font-medium text-gray-900 dark:text-white mt-1">{formData.email}</p>
+                    <p className="text-lg font-medium text-gray-900 dark:text-white mt-1">{actualUserData?.email || 'Non défini'}</p>
                   </div>
                 </div>
               )}
@@ -336,7 +340,7 @@ const Profile = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default Profile

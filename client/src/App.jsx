@@ -10,7 +10,6 @@ import Layout from "./pages/Layout";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import OAuthCallback from "./pages/auth/OAuthCallback";
-// import Home from "./pages/Home"; // Home n'est plus utilisé pour /app index
 import MyTasks from "./pages/tasks/MyTasks";
 import CreateTask from "./pages/tasks/CreateTask";
 import EditTask from "./pages/tasks/EditTask";

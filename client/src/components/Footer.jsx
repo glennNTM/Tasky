@@ -15,7 +15,7 @@ const Footer = () => {
           
           <div className="text-center md:text-right">
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              © 2024 Tasky. Tous droits réservés.
+              © 2025 Tasky. Tous droits réservés.
             </p>
             <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
               Plateforme de gestion de tâches

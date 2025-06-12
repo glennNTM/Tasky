@@ -8,7 +8,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-});
+})
 
 // Intercepteur pour ajouter le token d'authentification
 api.interceptors.request.use((config) => {
@@ -29,15 +29,14 @@ api.interceptors.response.use(
     }
     return Promise.reject(error);
   }
-);
+)
 
 // Services d'authentification
 export const authService = {
   register: (userData) => api.post('/api/auth/register', userData),
   login: (credentials) => api.post('/api/auth/login', credentials),
   logout: () => api.post('/api/auth/logout'),
-  oauthCallback: (provider, code) => api.post(`/api/auth/oauth/${provider}`, { code }),
-};
+}
 
 // Services utilisateurs
 export const userService = {
@@ -46,7 +45,7 @@ export const userService = {
   updateUserProfile: (id, userData) => api.put(`/api/users/${id}`, userData),
   deleteUser: (id) => api.delete(`/api/users/${id}`),
   updatePassword: (passwordData) => api.put('/api/users/password', passwordData), // Pour changer le mot de passe de l'utilisateur connecté
-};
+}
 
 // Services tâches
 export const taskService = {
@@ -56,6 +55,6 @@ export const taskService = {
   createTask: (taskData) => api.post('/api/tasks/', taskData),
   updateTask: (id, taskData) => api.put(`/api/tasks/${id}`, taskData),
   deleteTask: (id) => api.delete(`/api/tasks/${id}`),
-};
+}
 
 export default api

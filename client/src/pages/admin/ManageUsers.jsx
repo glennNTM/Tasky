@@ -1,5 +1,6 @@
 
 import { useState, useMemo } from "react";
+import { Link } from "react-router-dom"; // Ajout de Link pour la navigation
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,7 +21,8 @@ import {
   Edit, 
   Trash2,
   Calendar,
-  Shield,
+  Shield, // Icône pour rôle utilisateur
+  ListChecks, // Icône pour tâches
   Brain,
   Loader2,
   Mail // Ajouté pour l'icône email
@@ -120,8 +122,13 @@ const ManageUsers = () => {
 
   return (
     <div className="p-4 md:p-6 lg:p-8 space-y-6">
-      <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Gestion des utilisateurs</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Gestion des utilisateurs</h1>
+        </div>
+        <Link to="/app/admin/tasks">
+          <Button variant="outline" className="flex items-center gap-2"> <ListChecks className="h-4 w-4" /> Voir les tâches</Button>
+        </Link>
         <p className="text-gray-600 dark:text-gray-300 mt-2 text-sm md:text-base">Gérez les comptes utilisateurs et leurs permissions.</p>
       </div>
 

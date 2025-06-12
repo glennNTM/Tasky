@@ -1,61 +1,63 @@
 
 import { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom' // useParams n'est plus utilisé ici
 import { toast } from 'sonner'
-import { authService } from '@/services/api'
+// authService n'est plus directement appelé ici car le token est déjà fourni par le serveur
 
 const OAuthCallback = () => {
   const navigate = useNavigate();
-  const { provider } = useParams();
+  const location = useLocation(); // Pour lire les query params
 
   useEffect(() => {
-    const handleOAuthCallback = async () => {
+    const handleOAuthSuccess = () => {
       try {
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
+        const urlParams = new URLSearchParams(location.search);
+        const token = urlParams.get('token');
+        const userString = urlParams.get('user');
         const error = urlParams.get('error');
+        const oauthSuccess = urlParams.get('oauth_success');
+        const provider = urlParams.get('provider') || 'OAuth'; // Récupère le fournisseur
 
         if (error) {
-          throw new Error(`Erreur ${provider}: ${error}`);
+          throw new Error(`Erreur ${provider} (depuis serveur): ${error} - ${urlParams.get('message') || ''}`);
         }
 
-        if (!code) {
-          throw new Error('Code d\'autorisation manquant');
-        }
-
-        console.log(`Traitement du callback ${provider} avec le code:`, code);
-
-        // Envoyer le code au backend pour échanger contre un token
-        const response = await authService.oauthCallback(provider, code);
-        
-        if (response.data.user && response.data.token) {
+        if (oauthSuccess === 'true' && token && userString) {
+          const user = JSON.parse(userString);
+          console.log(`Connexion ${provider} réussie via serveur. Token:`, token, "User:", user);
           // Stocker les informations utilisateur
           localStorage.setItem('user', JSON.stringify({
-            ...response.data.user,
-            token: response.data.token
+            ...user,
+            token: token
           }));
 
           toast.success(`Connexion ${provider} réussie !`);
-          navigate('/app');
-        } else {
-          throw new Error('Réponse invalide du serveur');
+          // Redirection conditionnelle en fonction du rôle
+          if (user.role === 'admin') {
+            navigate("/app/admin");
+          } else {
+            navigate('/app');
+          }
+        } else if (!oauthSuccess) { // Si on arrive ici sans code ni succès, c'est probablement une erreur ou un accès direct
+          throw new Error('Paramètres de callback OAuth invalides ou manquants.');
         }
       } catch (error) {
-        console.error(`Erreur ${provider} OAuth:`, error);
-        toast.error(`Erreur lors de la connexion ${provider}: ${error.message}`);
-        navigate('/login');
+        const providerFromQuery = new URLSearchParams(location.search).get('provider') || 'OAuth';
+        console.error(`Erreur lors du traitement du callback ${providerFromQuery}:`, error);
+        toast.error(`Erreur ${providerFromQuery}: ${error.message}`);
+        navigate('/login')
       }
     };
 
-    handleOAuthCallback();
-  }, [provider, navigate]);
+    handleOAuthSuccess();
+  }, [location, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
         <p className="text-gray-600 dark:text-gray-300">
-          Finalisation de la connexion {provider}...
+          Finalisation de la connexion...
         </p>
       </div>
     </div>

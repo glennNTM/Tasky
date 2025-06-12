@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom"; // Ajout de Link pour la navigation
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +23,7 @@ import {
   CheckCircle,
   Clock,
   AlertCircle,
+  Users, // Ajouté pour l'icône utilisateurs
   Filter,
   Loader2 // Ajouté
 } from "lucide-react";
@@ -158,8 +160,13 @@ const ManageTasks = () => {
 
   return (
     <div className="p-6 space-y-6">
-      <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Gestion des tâches</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Gestion des tâches</h1>
+        </div>
+        <Link to="/app/admin/users">
+          <Button variant="outline" className="flex items-center gap-2"><Users className="h-4 w-4" /> Voir les utilisateurs</Button>
+        </Link>
         <p className="text-gray-600 dark:text-gray-300 mt-2 text-sm md:text-base">Vue d'ensemble et gestion de toutes les tâches de la plateforme.</p>
       </div>
 
@@ -268,7 +275,6 @@ const ManageTasks = () => {
                 <TableHead>Priorité</TableHead>
                 <TableHead>Date limite</TableHead>
                 <TableHead>Créée le</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -305,17 +311,6 @@ const ManageTasks = () => {
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
-                      {/* <Button variant="ghost" size="sm" onClick={() => console.log("Edit task", task._id)}>
-                        <Edit className="h-4 w-4" />
-                      </Button> */}
-                      <Button 
-                        variant="ghost" 
-                        size="sm"
-                        onClick={() => handleDeleteTask(task)}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -336,21 +331,8 @@ const ManageTasks = () => {
           )}
         </CardContent>
       </Card>
-
-      <DeleteConfirmModal
-        isOpen={deleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        onConfirm={confirmDelete}
-        title="Supprimer la tâche"
-        description={
-          taskToDelete 
-            ? `Êtes-vous sûr de vouloir supprimer la tâche "${taskToDelete.titre}" ? Cette action est irréversible.`
-            : ""
-        }
-        isDeleting={deleteMutation.isPending}
-      />
     </div>
   );
 };
 
-export default ManageTasks;
+export default ManageTasks

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { ShieldCheck, Github, Eye, EyeOff } from "lucide-react";
+import { Brain, Github, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { authService } from "@/services/api";
 import { oauthService } from "@/services/oauth";
@@ -72,7 +72,7 @@ const Register = () => {
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-4">
               <div className="bg-purple-600 p-2 rounded-lg">
-                <ShieldCheck className="h-6 w-6 text-white" />
+                <Brain className="h-6 w-6 text-white" />
               </div>
               <span className="text-2xl font-bold text-gray-900 dark:text-white">Tasky</span>
             </div>
@@ -87,7 +87,7 @@ const Register = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Boutons OAuth */}
-              <div className="grid grid-cols-1 gap-3">
+              {/* <div className="grid grid-cols-1 gap-3">
                 <Button 
                   variant="outline" 
                   onClick={handleGoogleRegister}
@@ -111,16 +111,16 @@ const Register = () => {
                   <Github className="h-4 w-4 mr-2" />
                   S'inscrire avec GitHub
                 </Button>
-              </div>
+              </div> */}
 
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <Separator className="w-full bg-gray-200 dark:bg-gray-600" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-white dark:bg-gray-800 px-2 text-gray-500 dark:text-gray-400">
+                 {/*<span className="bg-white dark:bg-gray-800 px-2 text-gray-500 dark:text-gray-400">
                     Ou s'inscrire avec
-                  </span>
+                  </span>*/}
                 </div>
               </div>
 
