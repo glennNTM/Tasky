@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { User, Save, Lock, Edit, Eye, EyeOff, Loader2 } from "lucide-react"
 import { toast } from "sonner"
-import ImageUpload from "@/components/ImageUpload"
+//import ImageUpload from "@/components/ImageUpload"
 import { userService } from "@/services/api"
 
 const Profile = () => {
@@ -17,7 +17,7 @@ const Profile = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [profileImage, setProfileImage] = useState(null);
+  //const [profileImage, setProfileImage] = useState(null);
   
   // Récupérer l'ID de l'utilisateur depuis le localStorage
   const storedUser = JSON.parse(localStorage.getItem('user') || '{}')
@@ -44,9 +44,9 @@ const Profile = () => {
         fullname: data.fullname || "",
         email: data.email || ""
       }));
-      if (data.profilePictureUrl) {
-        setProfileImage({ file: null, url: data.profilePictureUrl });
-      }
+       // if (data.profilePictureUrl) {
+      //   setProfileImage({ file: null, url: data.profilePictureUrl });
+      // }
     },
     onError: (error) => {
       toast.error(error.response?.data?.message || "Erreur lors du chargement du profil.");
@@ -94,7 +94,7 @@ const Profile = () => {
       email: formData.email,
       // Si l'URL de l'image a changé et qu'un nouveau fichier n'est pas la source (ex: suppression ou URL externe)
       // Ou si un nouveau fichier a été téléversé et son URL finale est dans profileImage.url
-      profilePictureUrl: profileImage?.url 
+      //profilePictureUrl: profileImage?.url 
     };
     updateUserMutation.mutate(dataToUpdate);
   }
@@ -118,12 +118,12 @@ const Profile = () => {
     }));
   };
 
-  const handleImageChange = (file, imageUrl) => {
-    setProfileImage({ file, url: imageUrl });
-    // Si l'image est téléversée immédiatement par ImageUpload et que imageUrl est l'URL finale,
-    // vous pourriez vouloir déclencher updateUserMutation ici ou attendre la sauvegarde manuelle.
-    // Pour l'instant, on suppose que l'URL est mise à jour dans le formulaire et sauvegardée avec le reste.
-  };
+ // const handleImageChange = (file, imageUrl) => {
+  //   setProfileImage({ file, url: imageUrl });
+  //   // Si l'image est téléversée immédiatement par ImageUpload et que imageUrl est l'URL finale,
+  //   // vous pourriez vouloir déclencher updateUserMutation ici ou attendre la sauvegarde manuelle.
+  //   // Pour l'instant, on suppose que l'URL est mise à jour dans le formulaire et sauvegardée avec le reste.
+  // };
 
   if (isLoadingProfile) {
     return (
@@ -141,10 +141,10 @@ const Profile = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 md:p-6 lg:p-8">
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="text-center space-y-6">
-          <ImageUpload
+         {/* <ImageUpload
             currentImage={profileImage?.url}
             onImageChange={handleImageChange}
-          />
+          />*/}
           <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{actualUserData?.fullname || (isLoadingProfile ? 'Chargement...' : '')}</h1>
             <p className="text-gray-600 dark:text-gray-300">{actualUserData?.email || (isLoadingProfile ? 'Chargement...' : '')}</p>

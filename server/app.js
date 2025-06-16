@@ -9,8 +9,7 @@ import taskRouter from './routes/task.routes.js'
 import connectToDatabase from './database/mongodb.js'
 import errorMiddleware from './middlewares/error.middleware.js'
 import cors from 'cors'
-import { configurePassport } from './config/passport.config.js'
-import passport from 'passport'
+
 
 
 const app = express()
@@ -45,12 +44,6 @@ app.use(
   })
 );
 
-// --- Configuration de Passport ---
-configurePassport()
-
-// --- Initialiser Passport et sa session ---
-app.use(passport.initialize());
-app.use(passport.session()); // Doit être après express-session
 
 // Middleware de protection CSRF
 

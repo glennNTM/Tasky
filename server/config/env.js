@@ -14,8 +14,6 @@ const {
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
   VITE_API_URL,
-  FRONTEND_ORIGIN_FOR_OAUTH_CALLBACK,
-
 // eslint-disable-next-line no-undef
 } = process.env
 
@@ -29,8 +27,7 @@ const requiredEnvVars = {
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
   VITE_API_URL,
-  FRONTEND_ORIGIN_FOR_OAUTH_CALLBACK
-};
+}
 
 for (const [key, value] of Object.entries(requiredEnvVars)) {
   if (!value) {
@@ -41,6 +38,6 @@ for (const [key, value] of Object.entries(requiredEnvVars)) {
 }
 export { 
   PORT, MONGODB_URI, JWT_SECRET, JWT_EXPIRES_IN, SESSION_SECRET,
-  GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, VITE_API_URL, FRONTEND_ORIGIN_FOR_OAUTH_CALLBACK
+  GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, VITE_API_URL,
 
 }
